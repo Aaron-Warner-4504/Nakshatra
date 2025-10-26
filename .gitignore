@@ -5,3 +5,4 @@ bslink.cpp
 telemetry_log.csv
 bs915
 bs915test
+.venv

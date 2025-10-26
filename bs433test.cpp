@@ -7,8 +7,51 @@
 #include <termios.h>
 #include <fcntl.h>
 #include <unistd.h>
-
+using json = nlohmann::json;
 using namespace std;
+//JSON
+#include <iostream>
+#include <nlohmann/json.hpp>
+#include <ctime>
+
+using json = nlohmann::json;
+
+// ===========================================================
+//  FUNCTION: sendTelemetry
+//  PURPOSE : Send structured telemetry (as JSON) to frontend
+//  SOURCE  : CANSAT (433 MHz link)
+// ===========================================================
+void sendTelemetry(
+    float altitude,
+    float temperature,
+    float velocity,
+    float latitude,
+    float longitude,
+    float pressure = 0.0f,
+    float battery = 0.0f
+) {
+    try {
+        json telemetry;
+        telemetry["source"]      = "cansat";
+        telemetry["timestamp"]   = static_cast<long>(std::time(nullptr));  // Unix timestamp
+        telemetry["altitude"]    = altitude;
+        telemetry["temperature"] = temperature;
+        telemetry["velocity"]    = velocity;
+        telemetry["latitude"]    = latitude;
+        telemetry["longitude"]   = longitude;
+        telemetry["pressure"]    = pressure;
+        telemetry["battery"]     = battery;
+        telemetry["status"]      = "OK";
+
+        // Print JSON as single line (for Python frontend to parse easily)
+        std::cout << telemetry.dump() << std::endl;
+    }
+    catch (const std::exception &e) {
+        std::cerr << "Telemetry JSON error: " << e.what() << std::endl;
+    }
+}
+
+
 
 // ---------- Configuration ----------
 const char* SERIAL_PORT = "/dev/ttyUSB1";  // change if needed
@@ -66,6 +109,7 @@ void processLine(const string &line, ofstream &logFile) {
     // Save to CSV log
     logFile << line << endl;
     logFile.flush();
+    
 }
 
 // ---------- Serial Port Setup ----------
