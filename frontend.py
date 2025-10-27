@@ -37,8 +37,8 @@ class CANSATMissionWindow(QWidget):
         gps_group.setStyleSheet("color: #333; font-weight: bold;")
         gps_layout = QGridLayout()
 
-        self.lat_label = QLabel("Latitude: 19.0760")
-        self.lon_label = QLabel("Longitude: 72.8777")
+        self.lat_label = QLabel("Latitude: 26.7181")
+        self.lon_label = QLabel("Longitude: 84.2833")
         self.speed_label = QLabel("Speed: 2.5 m/s")
         self.gps_lock_label = QLabel("GPS Lock: Locked")
 
@@ -56,9 +56,9 @@ class CANSATMissionWindow(QWidget):
         telemetry_group.setStyleSheet("color: #333; font-weight: bold;")
         telemetry_layout = QGridLayout()
 
-        self.altitude_label = QLabel("Altitude: 100 m")
+        self.altitude_label = QLabel("Altitude: 5 m")
         self.vert_speed_label = QLabel("Vertical Speed: 1.2 m/s")
-        self.temp_label = QLabel("Temperature: 25 °C")
+        self.temp_label = QLabel("Temperature: 40 °C")
 
         for lbl in [self.altitude_label, self.vert_speed_label, self.temp_label]:
             lbl.setStyleSheet("font-size: 14px; color: #555;")
@@ -157,11 +157,11 @@ class TelemetrySimulator:
         self.time += 1
         return {
             'time': self.time,
-            'altitude': random.uniform(100, 300),
-            'velocity': random.uniform(20, 60),
-            'temperature': random.uniform(25, 45),
-            'pressure': random.uniform(980, 1020),
-            'status': random.choices(["OK", "WARN", "FAIL"], weights=[0.7, 0.2, 0.1])[0],
+            'altitude': random.uniform(0, 50),
+            'velocity': random.uniform(0, 5),
+            'temperature': random.uniform(32, 45),
+            'pressure': random.uniform(1000, 1100),
+            'status': random.choices(["OK", "WARN", "FAIL"], weights=[0.2, 0.7, 0.1])[0],
             'failed_sensor': random.choice([None, "Altitude", "Velocity", "Temperature", "Pressure", None])
         }
 
@@ -207,7 +207,7 @@ class DataWindow(QWidget):
         lat_frame = QFrame()
         lat_frame.setStyleSheet("background-color: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 20px;")
         lat_vbox = QVBoxLayout(lat_frame)
-        self.lat_label = QLabel("Latitude\n19.0760°")
+        self.lat_label = QLabel("Latitude\n26.7181°")
         self.lat_label.setStyleSheet("color: #333; font-size: 18px;")
         lat_vbox.addWidget(self.lat_label)
         
@@ -215,7 +215,7 @@ class DataWindow(QWidget):
         lon_frame = QFrame()
         lon_frame.setStyleSheet("background-color: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 20px;")
         lon_vbox = QVBoxLayout(lon_frame)
-        self.lon_label = QLabel("Longitude\n72.8777°")
+        self.lon_label = QLabel("Longitude\n84.2833°")
         self.lon_label.setStyleSheet("color: #333; font-size: 18px;")
         lon_vbox.addWidget(self.lon_label)
         
